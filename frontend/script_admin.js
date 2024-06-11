@@ -1,4 +1,12 @@
-inbox.addEventListener("click", (e) => {
+document.addEventListener("DOMContentLoaded", () => {
+    loadComplaints();
+});
+
+document.querySelector("#inbox").addEventListener("click", (e) => {
+    loadComplaints();
+});
+
+function loadComplaints() {
     // Create a new XMLHttpRequest object
     const xhr = new XMLHttpRequest();
     
@@ -15,8 +23,8 @@ inbox.addEventListener("click", (e) => {
             const responseData = JSON.parse(xhr.responseText);
             // Process the response data here
             console.log(responseData);
-            main_content = document.querySelector('#main-content')
-            main_content.innerHTML= `
+            const main_content = document.querySelector('#main-content');
+            main_content.innerHTML = `
             <table class="table" id="complaint-table">
             <tr>
                 <th>COMPLAINT ID</th>
@@ -31,10 +39,11 @@ inbox.addEventListener("click", (e) => {
                 <th>STATUS</th>
             </tr>
             <!-- Table rows can be added here as needed -->
-            </table>`
-            data = responseData['data']
-            console.log(responseData)
-            for (let i = 0; i < data.length; i++){
+            </table>`;
+            
+            const data = responseData['data'];
+            console.log(data);
+            for (let i = 0; i < data.length; i++) {
                 const newData = {
                     complaintId: data[i][0],
                     empNo: data[i][1],
@@ -47,9 +56,8 @@ inbox.addEventListener("click", (e) => {
                     referenceDoc: data[i][8],
                     status: data[i][9]
                 };
+                
                 const table = document.querySelector('#complaint-table');
-
-                // Create a new row and add the data
                 const newRow = table.insertRow();
                 newRow.insertCell(0).textContent = newData.complaintId;
                 newRow.insertCell(1).textContent = newData.empNo;
@@ -75,9 +83,9 @@ inbox.addEventListener("click", (e) => {
     
     // Send the request
     xhr.send();
-
-    main_content = document.querySelector('#main-content')
-    main_content.innerHTML= `
+    
+    const main_content = document.querySelector('#main-content');
+    main_content.innerHTML = `
     <table class="table">
       <tr>
         <th>COMPLAINT ID</th>
@@ -89,7 +97,5 @@ inbox.addEventListener("click", (e) => {
         <th>DATE</th>
       </tr>
       <!-- Table rows can be added here as needed -->
-    </table>`
-    
-    
-});
+    </table>`;
+}
